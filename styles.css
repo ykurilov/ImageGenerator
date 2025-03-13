@@ -1,0 +1,686 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 1200px;
+    transition: all 0.3s ease;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.prompt-container {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    outline: none;
+    transition: box-shadow 0.3s;
+    margin-bottom: 0; /* Убираем отступ снизу, так как он теперь в .prompt-container */
+}
+
+input:focus {
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+#enhance-prompt {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1/1;
+    flex-shrink: 0;
+}
+
+#enhance-prompt:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+    transform: translateY(-2px);
+}
+
+#enhance-prompt:active {
+    transform: translateY(1px);
+}
+
+.resolution-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.resolution-option {
+    flex: 1;
+    min-width: 120px;
+}
+
+.resolution-option input[type="radio"] {
+    display: none;
+}
+
+.resolution-option label {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.resolution-option input[type="radio"]:checked + label {
+    background: rgba(0, 180, 219, 0.6);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.resolution-option label:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #00b4db;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+    background: #0083b0;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.gallery-container {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.images-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.image-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: block;
+}
+
+.image-item:hover {
+    transform: scale(1.03);
+}
+
+.image-item:hover img {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Адаптивность для контейнера изображений */
+@media (min-width: 1200px) {
+    .images-gallery {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .container {
+        max-width: 1200px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    .images-gallery {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .container {
+        max-width: 900px;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+    .images-gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .container {
+        max-width: 700px;
+    }
+}
+
+@media (max-width: 479px) {
+    .images-gallery {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .container {
+        max-width: 95%;
+        width: 100%;
+        padding: 15px;
+    }
+    
+    img {
+        aspect-ratio: auto;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    input, button {
+        padding: 10px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Стили для лоадера */
+.loader-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+.loader-container p {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #00b4db;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Стили для сообщений об ошибках */
+.error-message {
+    color: #ff6b6b;
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(5px);
+}
+
+/* Стили для заголовка группы изображений */
+.group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+    backdrop-filter: blur(8px);
+}
+
+.prompt-text {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 1rem;
+    font-style: italic;
+}
+
+.date-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+}
+
+@media (max-width: 600px) {
+    .group-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Стили для секции управления Lora */
+.lora-controls {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.lora-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.lora-title h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+/* Стили для переключателя (Toggle Switch) */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #00b4db;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #00b4db;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 24px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Стили для контрола веса */
+.lora-weight-control {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.weight-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+}
+
+#weight-value {
+    font-weight: 600;
+    color: #fff;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #00b4db;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: #0083b0;
+    transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #00b4db;
+    cursor: pointer;
+    transition: background .2s;
+    border: none;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+    background: #0083b0;
+    transform: scale(1.1);
+}
+
+/* Адаптивность для элементов управления Lora */
+@media (max-width: 600px) {
+    .lora-controls {
+        padding: 12px;
+    }
+    
+    .lora-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .lora-title h3 {
+        font-size: 1rem;
+    }
+    
+    .weight-input-container {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .weight-input-container label {
+        grid-column: 1;
+        white-space: nowrap;
+    }
+    
+    .compact-slider {
+        grid-column: 2;
+        width: 100%;
+    }
+    
+    .number-input {
+        grid-column: 3;
+        width: 50px;
+    }
+}
+
+/* Новый компактный выбор разрешения */
+.config-panel {
+    margin-bottom: 20px;
+}
+
+.resolution-selector {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px 15px;
+}
+
+.resolution-selector label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+}
+
+.resolution-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.resolution-buttons input[type="radio"] {
+    display: none;
+}
+
+.resolution-buttons label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.resolution-buttons input[type="radio"]:checked + label {
+    background: #00b4db;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.resolution-buttons label:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Компактное управление весом Lora */
+.weight-input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.compact-slider {
+    width: 150px;
+    flex: 1;
+}
+
+.number-input {
+    width: 60px;
+    text-align: center;
+    padding: 5px;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    font-size: 0.9rem;
+}
+
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button { 
+    opacity: 1;
+    height: 20px;
+}
+
+@media (max-width: 600px) {
+    .weight-input-container {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .weight-input-container label {
+        grid-column: 1;
+        white-space: nowrap;
+    }
+    
+    .compact-slider {
+        grid-column: 2;
+        width: 100%;
+    }
+    
+    .number-input {
+        grid-column: 3;
+        width: 50px;
+    }
+}
+
+/* Стили для модального просмотрщика изображений */
+.image-viewer {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    overflow: hidden;
+}
+
+.viewer-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#viewer-image {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.close-viewer {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    z-index: 1010;
+}
+
+.close-viewer:hover {
+    color: #00b4db;
+    transform: scale(1.2);
+}
+
+.navigation-controls {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+    box-sizing: border-box;
+    z-index: 1010;
+}
+
+.nav-button {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-button:hover {
+    background: rgba(0, 180, 219, 0.7);
+    transform: scale(1.1);
+}

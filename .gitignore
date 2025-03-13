@@ -1,0 +1,18 @@
+# Системные файлы macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Временные файлы
+*.log
+*.tmp
+node_modules/
+dist/
+
+# Среды разработки
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace 

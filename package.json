@@ -1,0 +1,22 @@
+{
+  "name": "image-generator",
+  "version": "1.0.0",
+  "description": "Генератор изображений на основе текстовых запросов",
+  "main": "index.html",
+  "scripts": {
+    "update-version": "node version.js",
+    "watch": "node watch.js",
+    "hash-version": "node hash-version.js"
+  },
+  "keywords": [
+    "image",
+    "generator",
+    "web"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "crypto": "^1.0.1"
+  }
+} 

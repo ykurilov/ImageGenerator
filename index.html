@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Генератор изображений на основе текстовых запросов">
+    <meta name="theme-color" content="#1e3c72">
+    <title>Image Generator</title>
+    <link rel="stylesheet" href="./styles.css?v=202503140105">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Базовые стили для лоадера на случай, если внешний CSS не сработает */
+        .loader-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #00b4db;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generate Images</h1>
+        
+        <div class="prompt-container">
+            <input type="text" id="prompt" placeholder="Enter prompt (e.g., ohwx man with a beard)">
+            <button id="enhance-prompt" title="Улучшить запрос с помощью ChatGPT">✨</button>
+        </div>
+        
+        <div class="config-panel">
+            <div class="resolution-selector">
+                <label>Разрешение:</label>
+                <div class="resolution-buttons">
+                    <input type="radio" id="square" name="resolution" value="square" checked>
+                    <label for="square" title="1024×1024">1:1</label>
+                    
+                    <input type="radio" id="horizontal" name="resolution" value="horizontal">
+                    <label for="horizontal" title="1344×768">16:9</label>
+                    
+                    <input type="radio" id="vertical" name="resolution" value="vertical">
+                    <label for="vertical" title="768×1344">9:16</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="lora-controls">
+            <div class="lora-header">
+                <div class="lora-title">
+                    <h3>Lora "Лицо Юрия"</h3>
+                </div>
+                <div class="lora-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="lora-toggle" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="lora-weight-control">
+                <div class="weight-input-container">
+                    <label for="lora-weight">Вес:</label>
+                    <input type="range" id="lora-weight" min="0" max="2" step="0.1" value="1" class="compact-slider">
+                    <input type="number" id="lora-weight-input" min="0" max="2" step="0.1" value="1" class="number-input">
+                </div>
+            </div>
+        </div>
+        
+        <button onclick="generateImages()">Generate</button>
+        
+        <div id="loader" class="loader-container">
+            <div class="loader"></div>
+            <p>Генерация изображений...</p>
+        </div>
+        
+        <div class="gallery-container">
+            <div id="images" class="images-gallery"></div>
+        </div>
+    </div>
+
+    <!-- Модальный просмотрщик изображений -->
+    <div id="image-viewer" class="image-viewer">
+        <div class="viewer-content">
+            <span class="close-viewer">&times;</span>
+            <img id="viewer-image" src="" alt="Увеличенное изображение">
+            <div class="navigation-controls">
+                <button id="prev-image" class="nav-button">&lt;</button>
+                <button id="next-image" class="nav-button">&gt;</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js?v=202503140105"></script>
+</body>
+</html>
