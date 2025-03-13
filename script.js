@@ -8,7 +8,7 @@ function generateUUID() {
 
 // Закодированные API ключи (используем простое кодирование Base64)
 // Это обеспечивает минимальную защиту от случайного обнаружения ключей при просмотре исходного кода
-const encodedOpenAI = 'c2stc3ZjYWNjdC15SEdhM2hsQVR6Z080VTlLeWphV0gwMlhfYl9SaDh4eUZEOEdRS2dRNnR3bl9sTF9EMUxDNmI4WGt1aXZZZlJOV2NDZjF1OUl0ZFQzQmxia0ZKTI11ckV6T2R5aE92b0xBWmxacXZiLUhramhGeVVVanZCZWZQeFFNQWM3RGtVSDV6U0pzZ0JFcVFnNkJXVEdjaV91VDhRY1FlRXdB';
+const encodedOpenAI = 'c2stc3ZjYWNjdC15SEdhM2hsQVR6Z080VTlLeWphV0gwMlhfYl9SaDh4eUZEOEdRS2dRNnR3bl9sTF9EMUxDNmI4WGt1aXZZZlJOV2NDZjF1OUl0ZFQzQmxia0ZKTnVyRXpPZHloT3ZvTEFabFpxdmItSGtqaEZ5VVVqdkJlZlB4UU1BYzdEa1VINXpTSnNnQkVxUWc2QldUR2NpX3VUOFFjUWVFd0E=';
 const encodedRunWare = 'MDNnNUVlWm50eGhqZ1RTOEg4bFhBN3hwQU1yRnJmOTg=';
 
 // Декодирование ключей
