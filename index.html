@@ -6,7 +6,7 @@
     <meta name="description" content="Генератор изображений на основе текстовых запросов">
     <meta name="theme-color" content="#1e3c72">
     <title>Image Generator</title>
-    <link rel="stylesheet" href="./styles.css?v=202503140105">
+    <link rel="stylesheet" href="./styles.css?v=202503140110">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Базовые стили для лоадера на случай, если внешний CSS не сработает */
@@ -38,11 +38,6 @@
     <div class="container">
         <h1>Generate Images</h1>
         
-        <div class="prompt-container">
-            <input type="text" id="prompt" placeholder="Enter prompt (e.g., ohwx man with a beard)">
-            <button id="enhance-prompt" title="Улучшить запрос с помощью ChatGPT">✨</button>
-        </div>
-        
         <div class="config-panel">
             <div class="resolution-selector">
                 <label>Разрешение:</label>
@@ -57,6 +52,11 @@
                     <label for="vertical" title="768×1344">9:16</label>
                 </div>
             </div>
+        </div>
+        
+        <div class="prompt-container">
+            <input type="text" id="prompt" placeholder="Enter prompt (e.g., ohwx man with a beard)">
+            <button id="enhance-prompt" title="Улучшить запрос с помощью ChatGPT">✨</button>
         </div>
         
         <div class="lora-controls">
@@ -105,6 +105,8 @@
         </div>
     </div>
 
-    <script src="./script.js?v=202503140105"></script>
+    <!-- Конфигурационный файл с API ключами -->
+    <script src="./config.js"></script>
+    <script src="./script.js?v=202503140110"></script>
 </body>
 </html>

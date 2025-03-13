@@ -61,7 +61,7 @@ function showNextImage() {
 }
 
 // API ключ для ChatGPT
-const OPENAI_API_KEY = '';
+const OPENAI_API_KEY = CONFIG.OPENAI_API_KEY;
 
 // Функция для улучшения запроса с помощью ChatGPT
 async function enhancePrompt() {
@@ -171,7 +171,7 @@ async function generateImages() {
     const imagesDiv = document.getElementById('images');
 
     const taskUUID = generateUUID();
-    const apiKey = '';
+    const apiKey = CONFIG.RUNWARE_API_KEY;
     const url = 'https://api.runware.ai/v1';
 
     // Получаем параметры Lora-модели
