@@ -6,6 +6,22 @@ function generateUUID() {
     });
 }
 
+// Закодированные API ключи (используем простое кодирование Base64)
+// Это обеспечивает минимальную защиту от случайного обнаружения ключей при просмотре исходного кода
+const encodedOpenAI = 'c2stc3ZjYWNjdC1zQUd6WWlkaUc3NHVfQkM4dFdNV2xETkZtV1dqQ2dtbi1MVFlUaVg2T1QzU3BDd0RBOXgyanBGeEtRZjBHM203Xy1NOFhDbWV6SlQzQmxia0ZKUU43OTJWejMxcE9FVWpvVmd3LXhxOEJpekhhWXI2WU5PTVkzUlhlTWNuVFZRLTgzci1uVEJibThBdE9MV24tV0RLa0hiVzJqd0E=';
+const encodedRunWare = 'MDNnNUVlWm50eGhqZ1RTOEg4bFhBN3hwQU1yRnJmOTg=';
+
+// Декодирование ключей
+function decodeBase64(encoded) {
+    return atob(encoded);
+}
+
+// Объект для хранения API ключей
+const CONFIG = {
+    OPENAI_API_KEY: decodeBase64(encodedOpenAI),
+    RUNWARE_API_KEY: decodeBase64(encodedRunWare)
+};
+
 // Функция для настройки обработчиков кликов по изображениям
 function setupGalleryImageClicks() {
     const galleryImages = document.querySelectorAll('.image-item img');
