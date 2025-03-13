@@ -76,9 +76,6 @@ function showNextImage() {
     viewerImage.src = window.currentImages[window.currentIndex];
 }
 
-// API ключ для ChatGPT
-const OPENAI_API_KEY = CONFIG.OPENAI_API_KEY;
-
 // Функция для улучшения запроса с помощью ChatGPT
 async function enhancePrompt() {
     const promptInput = document.getElementById('prompt');
@@ -100,7 +97,7 @@ async function enhancePrompt() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
+                'Authorization': `Bearer ${CONFIG.OPENAI_API_KEY}`
             },
             body: JSON.stringify({
                 model: 'gpt-4o-mini',
