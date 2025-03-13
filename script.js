@@ -93,44 +93,79 @@ async function enhancePrompt() {
     enhanceButton.disabled = true;
     
     try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${CONFIG.OPENAI_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-4o-mini',
-                messages: [
-                    {
-                        role: 'system',
-                        content: 'You are an image prompt generator. Your task is to expand the given text according to the following structure: {style}, {object and details}, {location if applicable}, {style description}. By default, use "a photo of" as the style. But only if other style wasn\'t mentioned. If other style was mention, then use this style and don\'t use photo style. In the style description, specify camera name and settings (only if it\'s photo or cinematic style). However, if I indicate a different style, describe keywords that would be more suitable for that style. Write the prompt in English.'
-                    },
-                    {
-                        role: 'user',
-                        content: userPrompt
-                    }
-                ]
-            })
-        });
+        // Определяем, запущено ли приложение локально
+        const isLocalhost = window.location.hostname === 'localhost' || 
+                            window.location.hostname === '127.0.0.1' ||
+                            window.location.hostname === '';  // Для file:// протокола
         
-        if (!response.ok) {
-            throw new Error(`Ошибка API: ${response.status}`);
-        }
+        let enhancedPrompt;
         
-        const data = await response.json();
-        const enhancedPrompt = data.choices[0]?.message?.content;
-        
-        if (enhancedPrompt) {
-            promptInput.value = enhancedPrompt;
-            // Анимация подсветки поля ввода для обратной связи пользователю
-            promptInput.style.backgroundColor = 'rgba(102, 126, 234, 0.2)';
-            setTimeout(() => {
-                promptInput.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-            }, 1000);
+        if (isLocalhost) {
+            // Локальная разработка - прямой запрос к API OpenAI
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${CONFIG.OPENAI_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-4o-mini',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'You are an image prompt generator. Your task is to expand the given text according to the following structure: {style}, {object and details}, {location if applicable}, {style description}. By default, use "a photo of" as the style. But only if other style wasn\'t mentioned. If other style was mention, then use this style and don\'t use photo style. In the style description, specify camera name and settings (only if it\'s photo or cinematic style). However, if I indicate a different style, describe keywords that would be more suitable for that style. Write the prompt in English.'
+                        },
+                        {
+                            role: 'user',
+                            content: userPrompt
+                        }
+                    ]
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Ошибка API: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            enhancedPrompt = data.choices[0]?.message?.content;
+            
+            if (!enhancedPrompt) {
+                throw new Error('Не удалось получить улучшенный запрос');
+            }
         } else {
-            throw new Error('Не удалось получить улучшенный запрос');
+            // GitHub Pages - используем Cloudflare Worker
+            const response = await fetch('https://openai-proxy.ykurilov.workers.dev/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    prompt: userPrompt
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Ошибка сервера: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            enhancedPrompt = data.enhancedPrompt;
+            
+            if (!enhancedPrompt) {
+                throw new Error('Не удалось получить улучшенный запрос');
+            }
         }
+        
+        // Устанавливаем полученный результат
+        promptInput.value = enhancedPrompt;
+        
+        // Анимация подсветки поля ввода для обратной связи пользователю
+        promptInput.style.backgroundColor = 'rgba(102, 126, 234, 0.2)';
+        setTimeout(() => {
+            promptInput.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+        }, 1000);
+        
     } catch (error) {
         console.error('Ошибка при улучшении запроса:', error);
         alert(`Ошибка при улучшении запроса: ${error.message}`);
