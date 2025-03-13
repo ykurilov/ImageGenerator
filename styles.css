@@ -81,6 +81,35 @@ input:focus {
     transform: translateY(1px);
 }
 
+/* Стили для кнопки "Случайная идея" */
+#random-prompt {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1/1;
+    flex-shrink: 0;
+}
+
+#random-prompt:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    box-shadow: 0 0 15px rgba(106, 17, 203, 0.6);
+    transform: translateY(-2px);
+}
+
+#random-prompt:active {
+    transform: translateY(1px);
+}
+
 .resolution-options {
     display: flex;
     flex-wrap: wrap;
