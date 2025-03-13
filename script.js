@@ -27,34 +27,24 @@ let selectedModel = 'flux';
 
 // Инициализация обработчиков для выбора модели
 function initModelSelectors() {
-    console.log('[DEBUG] Инициализация селекторов моделей...');
     const modelFlux = document.getElementById('model-flux');
     const modelJuggernaut = document.getElementById('model-juggernaut');
     
-    // Проверка существования элементов
-    if (!modelFlux || !modelJuggernaut) {
-        console.error('[ERROR] Элементы селекторов моделей не найдены!');
-        return;
-    }
-    
-    console.log(`[DEBUG] Исходное состояние: model-flux=${modelFlux.checked}, model-juggernaut=${modelJuggernaut.checked}`);
-    
     // Установка начального значения
     selectedModel = document.querySelector('input[name="model-select"]:checked').value;
-    console.log(`[DEBUG] Начальная модель установлена: ${selectedModel}`);
     
     // Обработчики изменения
     modelFlux.addEventListener('change', function() {
         if (this.checked) {
             selectedModel = 'flux';
-            console.log('[DEBUG] Выбрана модель: Flux Dev');
+            console.log('Выбрана модель: Flux Dev');
         }
     });
     
     modelJuggernaut.addEventListener('change', function() {
         if (this.checked) {
             selectedModel = 'juggernaut';
-            console.log('[DEBUG] Выбрана модель: Juggernaut Pro Flux');
+            console.log('Выбрана модель: Juggernaut Pro Flux');
         }
     });
 }
@@ -264,7 +254,7 @@ async function generateImages() {
     const loraWeight = parseFloat(document.getElementById('lora-weight-input').value);
     
     // Получаем выбранную модель
-    const modelId = selectedModel === 'juggernaut' ? "runware:102@1" : "runware:101@1";
+    const modelId = selectedModel === 'juggernaut' ? "rundiffusion:130@100" : "runware:101@1";
     console.log(`Используется модель: ${selectedModel} (${modelId})`);
     
     // Создаем основную часть запроса
@@ -277,19 +267,12 @@ async function generateImages() {
         "height": height,
         "numberResults": 2,
         "outputFormat": "JPEG",
-        "steps": 28,
-        "CFGScale": 3.5,
-        "scheduler": "FlowMatchEulerDiscreteScheduler",
+        "steps": selectedModel === 'juggernaut' ? 33 : 28,
+        "CFGScale": selectedModel === 'juggernaut' ? 3 : 3.5,
+        "scheduler": selectedModel === 'juggernaut' ? "Euler Beta" : "FlowMatchEulerDiscreteScheduler",
         "outputType": ["URL"],
         "includeCost": false
     };
-    
-    // Для Juggernaut модели используем другие параметры
-    if (selectedModel === 'juggernaut') {
-        requestBodyBase.steps = 35; // Больше шагов для лучшего качества
-        requestBodyBase.CFGScale = 5.5; // Больше CFG для лучшей детализации
-        requestBodyBase.scheduler = "DPMSolverMultistepScheduler"; // Другой планировщик
-    }
     
     // Добавляем Lora параметры, только если включены
     if (isLoraEnabled) {
@@ -303,11 +286,7 @@ async function generateImages() {
     
     const requestBody = [requestBodyBase];
 
-    // Логируем запрос для отладки
-    console.log('Отправляем запрос:', JSON.stringify(requestBody, null, 2));
-
     try {
-        console.log('Начинаем fetch запрос к', url);
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -316,16 +295,8 @@ async function generateImages() {
             },
             body: JSON.stringify(requestBody)
         });
-        
-        console.log('Статус ответа:', response.status);
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Ошибка API:', errorText);
-            throw new Error(`HTTP ошибка: ${response.status}`);
-        }
 
         const result = await response.json();
-        console.log('Ответ API:', JSON.stringify(result, null, 2));
         
         // Скрываем лоадер после получения ответа
         loader.style.display = 'none';
