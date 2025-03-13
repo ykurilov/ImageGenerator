@@ -468,4 +468,115 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Первоначальная настройка обработчиков для существующих изображений
     setupGalleryImageClicks();
+    
+    // Добавляем обработчик для кнопки случайного промпта
+    document.getElementById('random-prompt').addEventListener('click', generateRandomPrompt);
 });
+
+// Функция для генерации случайного промпта с персонажем
+async function generateRandomPrompt() {
+    const promptInput = document.getElementById('prompt');
+    
+    // Отображаем загрузку
+    const randomButton = document.getElementById('random-prompt');
+    const originalButtonText = randomButton.innerHTML;
+    randomButton.innerHTML = '⏳';
+    randomButton.disabled = true;
+    promptInput.value = "Генерация идеи...";
+    
+    try {
+        // Проверяем, включена ли Lora
+        const isLoraEnabled = document.getElementById('lora-toggle').checked;
+        
+        // Определяем, запущено ли приложение локально
+        const isLocalhost = window.location.hostname === 'localhost' || 
+                            window.location.hostname === '127.0.0.1' ||
+                            window.location.hostname === '';  // Для file:// протокола
+        
+        let generatedPrompt;
+        
+        if (isLocalhost) {
+            // Локальная разработка - прямой запрос к API OpenAI
+            const systemMessage = 'You are an image prompt generator specialized in creating creative and diverse scenarios. Your prompts should be detailed, visually descriptive, and engage imagination. Always respond in English only.';
+            
+            // Формируем запрос в зависимости от состояния Lora
+            const userMessage = isLoraEnabled
+                ? `Create a random, detailed image generation prompt where 'ohwx man with a beard' is the main character. Place the character in an unexpected situation and interesting artistic style. Use diverse attributes, environments, and visual elements to create a vivid scene. Structure your response following this pattern: {style}, {ohwx man with beard with specific details}, {location with atmosphere}, {technical aspects like lighting, camera specs, style keywords}. DO NOT use the words 'prompt' or 'request' in your answer - just give me the ready-to-use text. Keep your response to 1-3 sentences max. Respond in English only.`
+                : `Create a random, detailed image generation prompt with an interesting character in an unexpected situation and artistic style. Use diverse attributes, environments, and visual elements to create a vivid scene. Structure your response following this pattern: {style}, {character with specific details}, {location with atmosphere}, {technical aspects like lighting, camera specs, style keywords}. DO NOT use the words 'prompt' or 'request' in your answer - just give me the ready-to-use text. Keep your response to 1-3 sentences max. Respond in English only.`;
+            
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${CONFIG.OPENAI_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-4o-mini',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: systemMessage
+                        },
+                        {
+                            role: 'user',
+                            content: userMessage
+                        }
+                    ],
+                    temperature: 0.9,
+                    max_tokens: 250
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Ошибка API: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            generatedPrompt = data.choices[0]?.message?.content;
+            
+            if (!generatedPrompt) {
+                throw new Error('Не удалось получить случайный запрос');
+            }
+        } else {
+            // GitHub Pages - используем Cloudflare Worker
+            const response = await fetch('https://openai-proxy.ykurilov.workers.dev/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    randomPrompt: true,
+                    loraEnabled: isLoraEnabled // Передаем состояние переключателя Lora в воркер
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Ошибка сервера: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            generatedPrompt = data.generatedPrompt;
+            
+            if (!generatedPrompt) {
+                throw new Error('Не удалось получить случайный запрос');
+            }
+        }
+        
+        // Устанавливаем полученный результат
+        promptInput.value = generatedPrompt;
+        
+        // Анимация подсветки поля ввода для обратной связи пользователю
+        promptInput.style.backgroundColor = 'rgba(106, 17, 203, 0.2)';
+        setTimeout(() => {
+            promptInput.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+        }, 1000);
+        
+    } catch (error) {
+        console.error('Ошибка при генерации случайного запроса:', error);
+        promptInput.value = 'Ошибка. Попробуйте снова';
+    } finally {
+        // Восстанавливаем кнопку
+        randomButton.innerHTML = originalButtonText;
+        randomButton.disabled = false;
+    }
+}
