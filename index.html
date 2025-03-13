@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Генератор изображений на основе текстовых запросов">
     <meta name="theme-color" content="#1e3c72">
-    <title>Image Generator</title>
-    <link rel="stylesheet" href="./styles.css?v=202503140153">
+    <title>Генератор Изображений</title>
+    <link rel="stylesheet" href="./styles.css?v=202503140205">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Базовые стили для лоадера на случай, если внешний CSS не сработает */
@@ -36,7 +36,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Generate Images</h1>
+        <h1>Генерация Изображений</h1>
         
         <div class="config-panel">
             <div class="resolution-selector">
@@ -55,7 +55,7 @@
         </div>
         
         <div class="prompt-container">
-            <input type="text" id="prompt" placeholder="Enter prompt (e.g., ohwx man with a beard)">
+            <input type="text" id="prompt" placeholder="Введите запрос (например, ohwx мужчина с бородой)">
             <button id="enhance-prompt" title="Улучшить запрос с помощью ChatGPT">✨</button>
         </div>
         
@@ -81,7 +81,7 @@
             </div>
         </div>
         
-        <button onclick="generateImages()">Generate</button>
+        <button onclick="generateImages()">Генерировать</button>
         
         <div id="loader" class="loader-container">
             <div class="loader"></div>
@@ -105,6 +105,6 @@
         </div>
     </div>
 
-    <script src="./script.js?v=202503140153"></script>
+    <script src="./script.js?v=202503140205"></script>
 </body>
 </html>
