@@ -22,6 +22,33 @@ const CONFIG = {
     RUNWARE_API_KEY: decodeBase64(encodedRunWare)
 };
 
+// Глобальная переменная для хранения текущей выбранной модели
+let selectedModel = 'flux';
+
+// Инициализация обработчиков для выбора модели
+function initModelSelectors() {
+    const modelFlux = document.getElementById('model-flux');
+    const modelJuggernaut = document.getElementById('model-juggernaut');
+    
+    // Установка начального значения
+    selectedModel = document.querySelector('input[name="model-select"]:checked').value;
+    
+    // Обработчики изменения
+    modelFlux.addEventListener('change', function() {
+        if (this.checked) {
+            selectedModel = 'flux';
+            console.log('Выбрана модель: Flux Dev');
+        }
+    });
+    
+    modelJuggernaut.addEventListener('change', function() {
+        if (this.checked) {
+            selectedModel = 'juggernaut';
+            console.log('Выбрана модель: Juggernaut Pro Flux');
+        }
+    });
+}
+
 // Функция для настройки обработчиков кликов по изображениям
 function setupGalleryImageClicks() {
     const galleryImages = document.querySelectorAll('.image-item img');
@@ -226,12 +253,16 @@ async function generateImages() {
     const isLoraEnabled = document.getElementById('lora-toggle').checked;
     const loraWeight = parseFloat(document.getElementById('lora-weight-input').value);
     
+    // Получаем выбранную модель
+    const modelId = selectedModel === 'juggernaut' ? "runware:102@1" : "runware:101@1";
+    console.log(`Используется модель: ${modelId}`);
+    
     // Создаем основную часть запроса
     const requestBodyBase = {
         "taskType": "imageInference",
         "taskUUID": taskUUID,
         "positivePrompt": prompt,
-        "model": "runware:101@1",
+        "model": modelId, // Используем выбранную модель
         "width": width,
         "height": height,
         "numberResults": 2,
@@ -471,6 +502,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Добавляем обработчик для кнопки случайного промпта
     document.getElementById('random-prompt').addEventListener('click', generateRandomPrompt);
+    
+    // Инициализация селекторов модели
+    initModelSelectors();
 });
 
 // Функция для генерации случайного промпта с персонажем
@@ -501,8 +535,8 @@ async function generateRandomPrompt() {
             
             // Формируем запрос в зависимости от состояния Lora
             const userMessage = isLoraEnabled
-                ? `Create a random, detailed image generation prompt where 'ohwx man with a beard' is the main character. Place the character in an unexpected situation and interesting artistic style. Use diverse attributes, environments, and visual elements to create a vivid scene. Structure your response following this pattern: {style}, {ohwx man with beard with specific details}, {location with atmosphere}, {technical aspects like lighting, camera specs, style keywords}. DO NOT use the words 'prompt' or 'request' in your answer - just give me the ready-to-use text. Keep your response to 1-3 sentences max. Respond in English only.`
-                : `Create a random, detailed image generation prompt with an interesting character in an unexpected situation and artistic style. Use diverse attributes, environments, and visual elements to create a vivid scene. Structure your response following this pattern: {style}, {character with specific details}, {location with atmosphere}, {technical aspects like lighting, camera specs, style keywords}. DO NOT use the words 'prompt' or 'request' in your answer - just give me the ready-to-use text. Keep your response to 1-3 sentences max. Respond in English only.`;
+                ? `Create a random, detailed image generation prompt where 'ohwx man with a beard' is the main character. Place the character in a usual or an unexpected situation. Photo, cinematic or some interesting artistic style. Use diverse attributes, environments, and visual elements to create a vivid scene. Structure your response following this pattern: {style}, {ohwx man with beard with specific details}, {location with atmosphere}, {technical aspects like lighting, camera specs, style keywords}. DO NOT use the words 'prompt' or 'request' in your answer - just give me the ready-to-use text. Keep your response to 1-3 sentences max. Respond in English only.`
+                : `Create a random, detailed image generation prompt with an interesting character in usual or an unexpected situation. Photo, cinematic or artistic style. Use diverse attributes, environments, and visual elements to create a vivid scene. Structure your response following this pattern: {style}, {character with specific details}, {location with atmosphere}, {technical aspects like lighting, camera specs, style keywords}. DO NOT use the words 'prompt' or 'request' in your answer - just give me the ready-to-use text. Keep your response to 1-3 sentences max. Respond in English only.`;
             
             const response = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
@@ -604,4 +638,34 @@ async function generateRandomPrompt() {
         randomButton.innerHTML = originalButtonText;
         randomButton.disabled = false;
     }
+}
+
+// Обновляем функцию инициализации, чтобы добавить инициализацию селекторов модели
+async function init() {
+    // ... existing code ...
+    initLoraControls();
+    initModelSelectors(); // Добавляем инициализацию селекторов модели
+    // ... existing code ...
+}
+
+// Обновить функцию generateImage, чтобы она использовала выбранную модель
+async function generateImage() {
+    // ... existing code ...
+    
+    // Добавляем параметр модели в запрос
+    const modelParameter = selectedModel === 'juggernaut' ? 'juggernaut' : 'flux';
+    
+    // ... existing code ...
+    
+    // Обновляем параметры в запросе
+    const data = {
+        prompt: fullPrompt,
+        negative_prompt: negativePrompt,
+        width: parseInt(widthSelect.value),
+        height: parseInt(heightSelect.value),
+        model: modelParameter,
+        // ... other existing parameters ...
+    };
+    
+    // ... existing code ...
 }

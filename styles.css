@@ -804,3 +804,136 @@ input[type="number"]::-webkit-outer-spin-button {
         gap: 12px;
     }
 }
+
+/* Стили для блока выбора модели */
+.model-controls {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.model-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.model-title h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.model-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.model-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 8px 10px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.model-option:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.model-option input[type="radio"] {
+    margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    outline: none;
+    transition: all 0.2s;
+    position: relative;
+    cursor: pointer;
+}
+
+.model-option input[type="radio"]:checked {
+    border-color: #00b4db;
+    background: rgba(0, 180, 219, 0.2);
+}
+
+.model-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #00b4db;
+}
+
+.model-option label {
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.model-hint {
+    margin-left: auto;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* Адаптивность для выбора модели */
+@media (max-width: 600px) {
+    .model-controls {
+        padding: 12px;
+    }
+    
+    .model-title h3 {
+        font-size: 1rem;
+    }
+    
+    .model-option {
+        padding: 6px 8px;
+    }
+    
+    .model-hint {
+        display: none;
+    }
+    
+    .model-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .model-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .model-option {
+        font-size: 0.9rem;
+    }
+}
+
+/* Исправления для iOS Safari - добавляем .model-controls */
+@supports (-webkit-touch-callout: none) {
+    .model-controls,
+    .lora-controls {
+        background: rgba(30, 60, 114, 0.6);
+        padding: 12px;
+        overflow: visible;
+        min-height: 120px;
+    }
+    
+    /* ... existing code ... */
+}

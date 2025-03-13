@@ -6,7 +6,7 @@
     <meta name="description" content="Генератор изображений на основе текстовых запросов">
     <meta name="theme-color" content="#1e3c72">
     <title>Генератор Изображений</title>
-    <link rel="stylesheet" href="./styles.css?v=202503140226">
+    <link rel="stylesheet" href="./styles.css?v=202503140324">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Базовые стили для лоадера на случай, если внешний CSS не сработает */
@@ -60,24 +60,45 @@
             <button id="enhance-prompt" title="Улучшить запрос с помощью ChatGPT">✨</button>
         </div>
         
-        <div class="lora-controls">
-            <div class="lora-header">
-                <div class="lora-title">
-                    <h3>Lora "Лицо Юрия"</h3>
+        <div class="controls-column">
+            <div class="model-controls">
+                <div class="model-header">
+                    <div class="model-title">
+                        <h3>Модель генерации</h3>
+                    </div>
                 </div>
-                <div class="lora-toggle">
-                    <label class="switch">
-                        <input type="checkbox" id="lora-toggle">
-                        <span class="slider round"></span>
-                    </label>
+                <div class="model-options">
+                    <div class="model-option">
+                        <input type="radio" id="model-flux" name="model-select" value="flux" checked>
+                        <label for="model-flux">Flux Dev</label>
+                        <div class="model-hint">Быстрая модель для тестирования</div>
+                    </div>
+                    <div class="model-option">
+                        <input type="radio" id="model-juggernaut" name="model-select" value="juggernaut">
+                        <label for="model-juggernaut">Juggernaut Pro Flux</label>
+                        <div class="model-hint">Качественная модель для финальных изображений</div>
+                    </div>
                 </div>
             </div>
-            
-            <div class="lora-weight-control">
-                <div class="weight-input-container">
-                    <label for="lora-weight">Вес:</label>
-                    <input type="range" id="lora-weight" min="0" max="2" step="0.1" value="1" class="compact-slider">
-                    <input type="number" id="lora-weight-input" min="0" max="2" step="0.1" value="1" class="number-input">
+            <div class="lora-controls">
+                <div class="lora-header">
+                    <div class="lora-title">
+                        <h3>Lora "Лицо Юрия"</h3>
+                    </div>
+                    <div class="lora-toggle">
+                        <label class="switch">
+                            <input type="checkbox" id="lora-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="lora-weight-control">
+                    <div class="weight-input-container">
+                        <label for="lora-weight">Вес:</label>
+                        <input type="range" id="lora-weight" min="0" max="2" step="0.1" value="1" class="compact-slider">
+                        <input type="number" id="lora-weight-input" min="0" max="2" step="0.1" value="1" class="number-input">
+                    </div>
                 </div>
             </div>
         </div>
@@ -106,6 +127,6 @@
         </div>
     </div>
 
-    <script src="./script.js?v=202503140226"></script>
+    <script src="./script.js?v=202503140324"></script>
 </body>
 </html>
