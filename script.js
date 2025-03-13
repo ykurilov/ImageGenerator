@@ -539,26 +539,51 @@ async function generateRandomPrompt() {
             }
         } else {
             // GitHub Pages - используем Cloudflare Worker
-            const response = await fetch('https://openai-proxy.ykurilov.workers.dev/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
+            // Временный режим отладки - показывает ошибки и отправляемые данные
+            try {
+                console.log('Отправка запроса в Cloudflare Worker с параметрами:', {
                     randomPrompt: true,
-                    loraEnabled: isLoraEnabled // Передаем состояние переключателя Lora в воркер
-                })
-            });
-            
-            if (!response.ok) {
-                throw new Error(`Ошибка сервера: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            generatedPrompt = data.generatedPrompt;
-            
-            if (!generatedPrompt) {
-                throw new Error('Не удалось получить случайный запрос');
+                    loraEnabled: isLoraEnabled
+                });
+                
+                const response = await fetch('https://openai-proxy.ykurilov.workers.dev/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        randomPrompt: true,
+                        loraEnabled: isLoraEnabled
+                    })
+                });
+                
+                console.log('Статус ответа:', response.status);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Текст ошибки:', errorText);
+                    throw new Error(`Ошибка сервера: ${response.status} - ${errorText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Полученные данные:', data);
+                
+                if (!data.generatedPrompt) {
+                    console.error('В ответе нет generatedPrompt:', data);
+                    
+                    // Временный фоллбэк - сгенерировать промпт локально, если сервер не вернул его
+                    generatedPrompt = isLoraEnabled 
+                        ? "Concept art, ohwx man with a beard wearing a steampunk outfit with brass goggles, in a Victorian laboratory filled with tesla coils and brass instruments, dramatic lighting, detailed textures, 4K resolution"
+                        : "Pixel art, brave explorer with a map and compass, standing on a cliff overlooking a fantasy landscape with floating islands, vibrant colors, nostalgic 16-bit style";
+                } else {
+                    generatedPrompt = data.generatedPrompt;
+                }
+            } catch (fetchError) {
+                console.error('Ошибка при выполнении fetch запроса:', fetchError);
+                
+                // Временный фоллбэк - сгенерировать промпт локально, если произошла ошибка
+                generatedPrompt = isLoraEnabled 
+                    ? "Watercolor painting, ohwx man with a beard in a cozy library, surrounded by floating books and magical glowing orbs, warm ambient lighting, soft brushstrokes, dreamy atmosphere"
+                    : "Digital illustration, cyberpunk detective with neon hair, in a rainy futuristic cityscape with holographic advertisements, neon lighting, reflective puddles, cinematic composition";
             }
         }
         
