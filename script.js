@@ -27,25 +27,15 @@ let selectedModel = 'juggernaut';
 
 // Инициализация обработчиков для выбора модели
 function initModelSelectors() {
-    const modelFlux = document.getElementById('model-flux');
-    const modelJuggernaut = document.getElementById('model-juggernaut');
+    const modelSelect = document.getElementById('model-select');
     
     // Установка начального значения
-    selectedModel = document.querySelector('input[name="model-select"]:checked').value;
+    selectedModel = modelSelect.value;
     
-    // Обработчики изменения
-    modelFlux.addEventListener('change', function() {
-        if (this.checked) {
-            selectedModel = 'flux';
-            console.log('Выбрана модель: Flux Dev');
-        }
-    });
-    
-    modelJuggernaut.addEventListener('change', function() {
-        if (this.checked) {
-            selectedModel = 'juggernaut';
-            console.log('Выбрана модель: Juggernaut Pro Flux');
-        }
+    // Обработчик изменения
+    modelSelect.addEventListener('change', function() {
+        selectedModel = this.value;
+        console.log(`Выбрана модель: ${selectedModel === 'flux' ? 'Flux Dev' : 'Juggernaut Pro Flux'}`);
     });
 }
 
@@ -432,12 +422,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (loraToggle && loraWeightControl) {
         // Функция для обновления видимости контрола веса
         function updateWeightControlVisibility() {
+            const loraControlsElement = document.querySelector('.lora-controls');
+            
             if (loraToggle.checked) {
-                loraWeightControl.style.opacity = '1';
-                loraWeightControl.style.pointerEvents = 'auto';
+                loraWeightControl.style.display = 'block';
+                loraControlsElement.classList.remove('lora-collapsed');
+                loraControlsElement.classList.add('lora-expanded');
             } else {
-                loraWeightControl.style.opacity = '0.5';
-                loraWeightControl.style.pointerEvents = 'none';
+                loraWeightControl.style.display = 'none';
+                loraControlsElement.classList.remove('lora-expanded');
+                loraControlsElement.classList.add('lora-collapsed');
             }
         }
         

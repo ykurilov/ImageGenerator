@@ -356,30 +356,35 @@ img {
 .lora-controls {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 15px;
+    padding: 15px 15px 15px 15px;
     margin-bottom: 20px;
     backdrop-filter: blur(5px);
+    transition: padding 0.3s ease;
 }
 
 .lora-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
+    line-height: 1;
 }
 
 .lora-title h3 {
     margin: 0;
     font-size: 1.1rem;
     color: #fff;
+    line-height: 1.2;
 }
 
 /* Стили для переключателя (Toggle Switch) */
 .switch {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     width: 50px;
     height: 24px;
+    vertical-align: middle;
 }
 
 .switch input {
@@ -434,7 +439,9 @@ input:checked + .slider:before {
 .lora-weight-control {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+    transition: all 0.3s ease;
+    margin-top: 8px;
 }
 
 .weight-label {
@@ -718,14 +725,22 @@ input[type="number"]::-webkit-outer-spin-button {
 @supports (-webkit-touch-callout: none) {
     .lora-controls {
         background: rgba(30, 60, 114, 0.6);
-        padding: 12px;
+        padding: 10px 12px 10px 12px;
         overflow: visible;
-        min-height: 120px;
+        min-height: auto;
+    }
+    
+    .lora-header {
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
     }
     
     .lora-weight-control {
         opacity: 1 !important;
-        min-height: 50px;
+        min-height: auto;
+        margin-top: 10px;
+        margin-bottom: 5px;
     }
     
     .weight-input-container {
@@ -733,11 +748,11 @@ input[type="number"]::-webkit-outer-spin-button {
         grid-template-columns: auto 1fr auto;
         align-items: center;
         gap: 10px;
-        min-height: 44px;
+        min-height: auto;
     }
     
     .gallery-container {
-        min-height: 200px;
+        min-height: auto;
         background: rgba(30, 60, 114, 0.4);
         border-radius: 12px;
         padding: 10px;
@@ -745,7 +760,7 @@ input[type="number"]::-webkit-outer-spin-button {
     }
     
     .image-item {
-        min-height: 100px;
+        min-height: auto;
         background: rgba(255, 255, 255, 0.1);
     }
     
@@ -778,8 +793,8 @@ input[type="number"]::-webkit-outer-spin-button {
 /* Дополнительные улучшения адаптивности */
 @media (max-width: 480px) {
     .lora-controls {
-        margin-bottom: 15px; 
-        min-height: 100px;
+        margin-bottom: 12px; 
+        min-height: auto;
     }
     
     .lora-title h3 {
@@ -809,7 +824,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .model-controls {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 15px;
+    padding: 15px 15px 12px 15px;
     margin-bottom: 20px;
     backdrop-filter: blur(5px);
 }
@@ -827,101 +842,79 @@ input[type="number"]::-webkit-outer-spin-button {
     color: #fff;
 }
 
-.model-options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+/* Стили для выпадающего меню выбора модели */
+.model-select-container {
+    width: 100%;
 }
 
-.model-option {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: rgba(255, 255, 255, 0.9);
-    padding: 8px 10px;
+.model-dropdown {
+    width: 100%;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
     border-radius: 8px;
-    transition: background 0.2s;
-}
-
-.model-option:hover {
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.model-option input[type="radio"] {
-    margin: 0;
-    appearance: none;
+    color: white;
+    font-size: 0.95rem;
+    cursor: pointer;
     -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: all 0.3s ease;
+}
+
+.model-dropdown:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.model-dropdown:focus {
     outline: none;
-    transition: all 0.2s;
-    position: relative;
-    cursor: pointer;
+    box-shadow: 0 0 0 2px rgba(0, 180, 219, 0.5);
 }
 
-.model-option input[type="radio"]:checked {
-    border-color: #00b4db;
-    background: rgba(0, 180, 219, 0.2);
-}
-
-.model-option input[type="radio"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #00b4db;
-}
-
-.model-option label {
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.model-hint {
-    margin-left: auto;
-    font-size: 0.85rem;
-    opacity: 0.7;
-    font-style: italic;
+.model-dropdown option {
+    background-color: #2a5298;
+    color: white;
 }
 
 /* Адаптивность для выбора модели */
 @media (max-width: 600px) {
     .model-controls {
-        padding: 12px;
+        padding: 12px 12px 8px 12px;
+        margin-bottom: 15px;
     }
     
     .model-title h3 {
         font-size: 1rem;
     }
     
-    .model-option {
-        padding: 6px 8px;
+    .model-dropdown {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+        margin-bottom: 2px;
     }
     
-    .model-hint {
-        display: none;
+    .model-header {
+        margin-bottom: 8px;
     }
     
-    .model-options {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
+    .lora-controls {
+        margin-bottom: 15px;
+        padding: 10px 12px 10px 12px;
     }
 }
 
 @media (max-width: 480px) {
-    .model-options {
-        grid-template-columns: 1fr;
+    .model-controls {
+        padding: 10px 10px 6px 10px;
+        margin-bottom: 12px;
     }
     
-    .model-option {
-        font-size: 0.9rem;
+    .lora-controls {
+        margin-bottom: 12px;
+        padding: 8px 10px 8px 10px;
     }
 }
 
@@ -930,10 +923,91 @@ input[type="number"]::-webkit-outer-spin-button {
     .model-controls,
     .lora-controls {
         background: rgba(30, 60, 114, 0.6);
-        padding: 12px;
+        padding: 10px 12px 10px 12px;
         overflow: visible;
-        min-height: 120px;
+        min-height: auto;
+    }
+    
+    .model-dropdown {
+        margin-bottom: 5px;
     }
     
     /* ... existing code ... */
+}
+
+/* Стили для свернутого и развернутого блока Lora */
+.lora-collapsed {
+    padding: 8px 12px !important;
+}
+
+.lora-expanded {
+    padding: 10px 12px !important;
+}
+
+/* Базовые исправления для улучшения выравнивания во всех браузерах */
+.lora-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.lora-title {
+    display: flex;
+    align-items: center;
+}
+
+/* На iOS требуется особое внимание к отступам */
+@supports (-webkit-touch-callout: none) {
+    .lora-collapsed {
+        padding: 8px 12px !important;
+    }
+    
+    .lora-expanded {
+        padding: 10px 12px !important;
+    }
+}
+
+/* Специфические исправления для Chrome и других webkit-браузеров (кроме iOS) */
+@supports ((-webkit-appearance: none) and (not (-webkit-touch-callout: none))) {
+    .lora-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 0 !important;
+        padding: 3px 0 3px 0;
+    }
+    
+    .switch {
+        transform: translateY(0);
+    }
+    
+    .lora-title h3 {
+        padding-top: 2px;
+        margin: 0;
+    }
+    
+    /* Исправление симметрии отступов для Chrome */
+    .lora-controls {
+        padding: 12px 12px 12px 12px !important;
+    }
+    
+    .lora-collapsed {
+        padding: 12px 12px !important;
+    }
+    
+    .lora-expanded {
+        padding: 12px 12px 14px 12px !important;
+    }
+    
+    /* Гарантируем корректное вертикальное выравнивание */
+    .lora-toggle {
+        display: flex;
+        align-items: center;
+        height: 24px;
+    }
+    
+    .lora-title {
+        display: flex;
+        align-items: center;
+        height: 24px;
+    }
 }

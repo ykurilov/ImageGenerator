@@ -6,7 +6,7 @@
     <meta name="description" content="Генератор изображений на основе текстовых запросов">
     <meta name="theme-color" content="#1e3c72">
     <title>Генератор Изображений</title>
-    <link rel="stylesheet" href="./styles.css?v=202503140329">
+    <link rel="stylesheet" href="./styles.css?v=202503140336">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Базовые стили для лоадера на случай, если внешний CSS не сработает */
@@ -36,8 +36,6 @@
 </head>
 <body>
     <div class="container">
-        <h1>Генерация Изображений</h1>
-        
         <div class="config-panel">
             <div class="resolution-selector">
                 <label>Разрешение:</label>
@@ -67,17 +65,11 @@
                         <h3>Модель генерации</h3>
                     </div>
                 </div>
-                <div class="model-options">
-                    <div class="model-option">
-                        <input type="radio" id="model-flux" name="model-select" value="flux">
-                        <label for="model-flux">Flux Dev</label>
-                        <div class="model-hint">Быстрая модель для тестирования</div>
-                    </div>
-                    <div class="model-option">
-                        <input type="radio" id="model-juggernaut" name="model-select" value="juggernaut" checked>
-                        <label for="model-juggernaut">Juggernaut Pro Flux</label>
-                        <div class="model-hint">Качественная модель для финальных изображений</div>
-                    </div>
+                <div class="model-select-container">
+                    <select id="model-select" class="model-dropdown">
+                        <option value="flux">Flux Dev — быстрая модель для тестирования</option>
+                        <option value="juggernaut" selected>Juggernaut Pro Flux — качественная модель для финальных изображений</option>
+                    </select>
                 </div>
             </div>
             <div class="lora-controls">
@@ -127,6 +119,6 @@
         </div>
     </div>
 
-    <script src="./script.js?v=202503140329"></script>
+    <script src="./script.js?v=202503140336"></script>
 </body>
 </html>
