@@ -23,7 +23,7 @@ const CONFIG = {
 };
 
 // Глобальная переменная для хранения текущей выбранной модели
-let selectedModel = 'flux';
+let selectedModel = 'juggernaut';
 
 // Инициализация обработчиков для выбора модели
 function initModelSelectors() {
