@@ -387,6 +387,9 @@ async function generateImages() {
 
 // Добавляем обработчик события для кнопки улучшения запроса
 document.addEventListener('DOMContentLoaded', function() {
+    // Предотвращаем навигацию назад при горизонтальном свайпе
+    disableSwipeBackNavigation();
+    
     // Обработчик для кнопки улучшения запроса
     const enhanceButton = document.getElementById('enhance-prompt');
     if (enhanceButton) {
@@ -500,6 +503,50 @@ document.addEventListener('DOMContentLoaded', function() {
     // Инициализация селекторов модели
     initModelSelectors();
 });
+
+// Функция для отключения навигации "назад" при горизонтальном свайпе
+function disableSwipeBackNavigation() {
+    // Обрабатываем события для десктопных браузеров
+    document.addEventListener('mousedown', handleStart, { passive: false });
+    document.addEventListener('mousemove', handleMove, { passive: false });
+    
+    // Обрабатываем события для мобильных устройств
+    document.addEventListener('touchstart', handleStart, { passive: false });
+    document.addEventListener('touchmove', handleMove, { passive: false });
+    
+    let startX = 0;
+    let startY = 0;
+    let moveThreshold = 100; // Порог для определения свайпа
+    
+    function handleStart(e) {
+        // Сохраняем начальные координаты касания/клика
+        startX = e.type === 'mousedown' ? e.pageX : e.touches[0].pageX;
+        startY = e.type === 'mousedown' ? e.pageY : e.touches[0].pageY;
+    }
+    
+    function handleMove(e) {
+        if (!startX || !startY) return;
+        
+        let currentX = e.type === 'mousemove' ? e.pageX : e.touches[0].pageX;
+        let currentY = e.type === 'mousemove' ? e.pageY : e.touches[0].pageY;
+        
+        let diffX = startX - currentX;
+        let diffY = startY - currentY;
+        
+        // Если это горизонтальный свайп (больше по X, чем по Y)
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            // Если свайп достаточно сильный и направлен влево или вправо
+            if (Math.abs(diffX) > moveThreshold) {
+                // Предотвращаем стандартное поведение (навигацию назад)
+                e.preventDefault();
+                
+                // Сбрасываем для предотвращения повторного срабатывания
+                startX = 0;
+                startY = 0;
+            }
+        }
+    }
+}
 
 // Функция для генерации случайного промпта с персонажем
 async function generateRandomPrompt() {

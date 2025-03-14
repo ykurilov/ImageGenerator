@@ -9,6 +9,15 @@ body {
     margin: 0;
     padding: 20px;
     box-sizing: border-box;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+}
+
+html {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
 }
 
 .container {
@@ -20,6 +29,7 @@ body {
     width: 100%;
     max-width: 1200px;
     transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 h1 {
@@ -788,6 +798,28 @@ input[type="number"]::-webkit-outer-spin-button {
             background: rgba(30, 60, 114, 0.9);
         }
     }
+    
+    /* Исправление для горизонтального скролла на iOS */
+    html, body {
+        overflow: hidden;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+    }
+    
+    body {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 100%;
+        margin: auto;
+        box-sizing: border-box;
+    }
 }
 
 /* Дополнительные улучшения адаптивности */
@@ -918,23 +950,6 @@ input[type="number"]::-webkit-outer-spin-button {
     }
 }
 
-/* Исправления для iOS Safari - добавляем .model-controls */
-@supports (-webkit-touch-callout: none) {
-    .model-controls,
-    .lora-controls {
-        background: rgba(30, 60, 114, 0.6);
-        padding: 10px 12px 10px 12px;
-        overflow: visible;
-        min-height: auto;
-    }
-    
-    .model-dropdown {
-        margin-bottom: 5px;
-    }
-    
-    /* ... existing code ... */
-}
-
 /* Стили для свернутого и развернутого блока Lora */
 .lora-collapsed {
     padding: 8px 12px !important;
@@ -1009,5 +1024,64 @@ input[type="number"]::-webkit-outer-spin-button {
         display: flex;
         align-items: center;
         height: 24px;
+    }
+}
+
+/* Исправления для iOS Safari - добавляем .model-controls */
+@supports (-webkit-touch-callout: none) {
+    .model-controls,
+    .lora-controls {
+        background: rgba(30, 60, 114, 0.6);
+        padding: 10px 12px 10px 12px;
+        overflow: visible;
+        min-height: auto;
+    }
+    
+    .model-dropdown {
+        margin-bottom: 5px;
+    }
+    
+    /* Исправление для горизонтального скролла на iOS */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        min-height: 100vh;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 95%;
+        margin: auto;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    
+    /* Fix для переполнения внутренних контейнеров */
+    .prompt-container,
+    .config-panel,
+    .controls-column,
+    .resolution-selector,
+    .images-gallery {
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    
+    /* Восстанавливаем видимость неактивных кнопок выбора разрешения */
+    .resolution-buttons label {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+    
+    .resolution-buttons input[type="radio"]:checked + label {
+        background: #00b4db;
     }
 }
