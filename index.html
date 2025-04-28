@@ -6,7 +6,7 @@
     <meta name="description" content="Генератор изображений на основе текстовых запросов">
     <meta name="theme-color" content="#1e3c72">
     <title>Генератор Изображений</title>
-    <link rel="stylesheet" href="./styles.css?v=202503140340">
+    <link rel="stylesheet" href="./styles.css?v=202503140341">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Базовые стили для лоадера на случай, если внешний CSS не сработает */
@@ -49,6 +49,21 @@
                     <input type="radio" id="vertical" name="resolution" value="vertical">
                     <label for="vertical" title="768×1344">9:16</label>
                 </div>
+            </div>
+            <div class="image-count-selector">
+                <label for="image-count">Количество:</label>
+                <select id="image-count" name="image-count">
+                    <option value="1">1</option>
+                    <option value="2" selected>2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
             </div>
         </div>
         
@@ -119,6 +134,6 @@
         </div>
     </div>
 
-    <script src="./script.js?v=202503140339"></script>
+    <script src="./script.js?v=202503140340"></script>
 </body>
 </html>

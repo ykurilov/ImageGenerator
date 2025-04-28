@@ -548,23 +548,32 @@ input[type="range"]::-moz-range-thumb:hover {
     }
 }
 
-/* Новый компактный выбор разрешения */
+/* Новый компактный выбор разрешения и количества */
 .config-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
     margin-bottom: 20px;
+    align-items: center;
 }
 
-.resolution-selector {
+.resolution-selector,
+.image-count-selector {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 12px 15px;
+    padding: 10px 15px;
+    flex-grow: 1;
+    min-width: 180px;
 }
 
-.resolution-selector label {
+.resolution-selector label,
+.image-count-selector label {
     color: rgba(255, 255, 255, 0.9);
     font-size: 0.95rem;
+    white-space: nowrap;
 }
 
 .resolution-buttons {
@@ -589,6 +598,7 @@ input[type="range"]::-moz-range-thumb:hover {
     cursor: pointer;
     transition: all 0.3s;
     font-weight: 500;
+    padding: 0;
 }
 
 .resolution-buttons input[type="radio"]:checked + label {
@@ -599,6 +609,40 @@ input[type="range"]::-moz-range-thumb:hover {
 
 .resolution-buttons label:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+/* Стили для выпадающего списка количества изображений */
+#image-count {
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 0.95rem;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 18px;
+    transition: all 0.3s ease;
+    min-width: 60px;
+}
+
+#image-count:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#image-count:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 180, 219, 0.5);
+}
+
+#image-count option {
+    background-color: #2a5298;
+    color: white;
 }
 
 /* Компактное управление весом Lora */

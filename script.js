@@ -224,6 +224,10 @@ async function generateImages() {
             height = 1024;
     }
 
+    // Get selected number of images
+    const imageCountSelect = document.getElementById('image-count');
+    const numberResults = parseInt(imageCountSelect.value) || 2; // Default to 2 if not found or invalid
+
     // Показываем лоадер
     const loader = document.getElementById('loader');
     loader.style.display = 'flex';
@@ -255,7 +259,7 @@ async function generateImages() {
         "model": modelId, // Используем выбранную модель
         "width": width,
         "height": height,
-        "numberResults": 2,
+        "numberResults": numberResults, // Используем выбранное количество
         "outputFormat": "JPEG",
         "steps": selectedModel === 'juggernaut' ? 33 : 28,
         "CFGScale": selectedModel === 'juggernaut' ? 3 : 3.5,
