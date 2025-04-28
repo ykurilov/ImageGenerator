@@ -208,20 +208,20 @@ async function generateImages() {
     // Set width and height based on selected resolution
     switch(selectedResolution) {
         case 'square':
-            width = 1024;
-            height = 1024;
+            width = 1440;
+            height = 1440;
             break;
         case 'horizontal':
-            width = 1344;
-            height = 768;
+            width = 1440;
+            height = 960;
             break;
         case 'vertical':
-            width = 768;
-            height = 1344;
+            width = 960;
+            height = 1440;
             break;
         default:
-            width = 1024;
-            height = 1024;
+            width = 1440;
+            height = 960;
     }
 
     // Get selected number of images
@@ -338,9 +338,9 @@ async function generateImages() {
                 if (selectedResolution === 'square') {
                     img.style.aspectRatio = '1';
                 } else if (selectedResolution === 'horizontal') {
-                    img.style.aspectRatio = '1344/768';
+                    img.style.aspectRatio = '1440/960';
                 } else if (selectedResolution === 'vertical') {
-                    img.style.aspectRatio = '768/1344';
+                    img.style.aspectRatio = '960/1440';
                 }
                 
                 imgContainer.appendChild(img);
